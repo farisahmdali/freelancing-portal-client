@@ -1,0 +1,32 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 250px;
+    margin: 0 auto;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .card-content {
+    padding: 10px;
+  }
+  
+  .card-heading {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .card-description {
+    font-size: 14px;
+    color: #000;
+  }
+  
