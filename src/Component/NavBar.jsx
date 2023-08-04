@@ -1,38 +1,25 @@
 import React from 'react'
-import "bootstrap/dist/css/bootstrap.css";
-import toggle from "../asset/icon.png";
-import { Link } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
+import logo from "../asset/logo getdone.jpg"
 
 function NavBar() {
+  const navigate=useNavigate()
   return (
-     <nav className="bg-black mb-5  w-100 text-light-emphasis d-flex pe-md-5 ps-5 justify-content-between">
-    <h2>GetDone</h2>
-    <div className="d-none d-md-block">
-      <a href="#home" className="btn text-light">
-        Home
-      </a>
-      <a href="#about" className="btn text-light">
-        About
-      </a>
-      <Link to="/login" className="btn text-light">
-        Get Started
-      </Link>
+     
+<nav className="bg-white dark:bg-gray-900 w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <a href="/" className="flex items-center">
+      <img src={logo} className="h-8 mr-3 bg-noForImg" alt="Flowbite Logo" />
+      <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">GetDone</span>
+    </a>
+    <div className="flex md:order-2">
+      <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => navigate("/login")}>Get started</button>
     </div>
-    <button className="bg-black btn-toggle border-0 d-md-none">
-      <img src={toggle} alt="" />
-    </button>
-    <div className="toggle-content">
-      <a href="#home" className="btn text-light">
-        Home
-      </a>
-      <a href="#about" className="btn text-light">
-        About
-      </a>
-      <Link to="/login" className="btn text-light">
-        Get Started
-      </Link>
-    </div>
-  </nav>
+    
+  </div>
+</nav>
+
+
   )
 }
 

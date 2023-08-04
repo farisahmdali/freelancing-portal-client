@@ -22,6 +22,38 @@ const DeveloperForm = ({ user, close }) => {
     setName(e.target.value);
   };
 
+  const types = [
+    "Web Development",
+    "UI/UX Design",
+    "Civil Engineer",
+    "Graphic Designer",
+    "App Development",
+    "Game Development",
+    "Cybersecurity",
+    "DevOps",
+    "Data Science",
+    "Digital Marketing",
+    "Content Writing",
+    "Mobile Development",
+    "Cloud Computing",
+    "Machine Learning",
+    "Network Engineering",
+    "Software Testing",
+    "Blockchain Development",
+    "Social Media Management",
+    "Video Editing",
+    "IT Support",
+    "Copywriting",
+    "E-commerce Development",
+    "Motion Graphics",
+    "Database Administration",
+    "SEO Specialist",
+    "AR/VR Development",
+    "Product Design",
+    "Network Security",
+    "Illustration",
+];
+
   const handlePhoneNumberChange = (e) => {
     setPhoneNumber({ ...phoneNumber, send: e.target.value });
   };
@@ -36,14 +68,14 @@ const DeveloperForm = ({ user, close }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    instance.post("/updateUser", {
-      token: cookies.getItem("token"),
-      data: {
+    instance.patch("/updateUser/"+cookies.getItem("token"), {
+      data:{
         pic:img,
         name,
         phone: phoneNumber.confirm,
         workAs: developerType,
-      },
+      }
+     
     }).then(()=>{
         instance.post('/login',{
             token:cookies.getItem('token')
@@ -55,19 +87,19 @@ const DeveloperForm = ({ user, close }) => {
   return (
     <div
       className="form-container position-fixed height-100vh w-100"
-      style={{ background: "black", color: "white" }}
+      style={{ background: "white", color: "black" }}
     >
       {loading ? <Loading /> : null}
       <button
-        className="btn-close btn-close-white"
+        className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 "
         onClick={() => close(false)}
-      ></button>
+      >X</button>
       <form
         onSubmit={handleSubmit}
         method="post"
-        className="col-12 p-5 col-sm-5 col-md-3"
+        className="col-12 p-5 col-sm-6 col-md-3"
       >
-        <h2>Edit</h2>
+        <h2 className="underline text-lg text-gray-900">Edit</h2>
         <div>
           <label htmlFor="dp">
             <img
@@ -83,12 +115,14 @@ const DeveloperForm = ({ user, close }) => {
               type="file"
               name=""
               id="dp"
-              className="d-none"
+              className="hidden"
               onChange={(e) => {
                 setLoading(true);
+                const file = e.target.files[0]
+                console.log(file.type)
+                const renamedFile = new File([file], `${val.user._id}.jpg`, { type: file.type });
                 let formData = new FormData();
-
-                formData.append("file", e.target.files[0]);
+                formData.append("file", renamedFile);
 
                 instance.post("/imageUpload", formData).then((res) => {
                   setImg(res.data.url);
@@ -164,13 +198,16 @@ const DeveloperForm = ({ user, close }) => {
             value={developerType}
             onChange={handleDeveloperTypeChange}
             required
+            style={{width:"200px"}}
           >
-            <Option value="Frontend">Frontend Developer</Option>
-            <Option value="Backend">Backend Developer</Option>
-            <Option value="Fullstack">Fullstack Developer</Option>
+            {types.map(x=>(
+              <Option value={x}>{x}</Option>
+
+            ))}
+           
           </Select>
         </div>
-        <button type="submit" className="btn-primary">
+        <button type="submit" className="btn-primary text-black hover:text-white border-solid border mt-2">
           Submit
         </button>
       </form>

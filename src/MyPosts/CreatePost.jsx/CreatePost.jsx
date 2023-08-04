@@ -84,7 +84,7 @@ const navigate=useNavigate()
     <div
       style={{
         background: "#0000",
-        color: "white",
+        color: " black",
         padding: "24px",
         borderRadius: "8px",
         boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.3)",
@@ -107,9 +107,9 @@ const navigate=useNavigate()
             required
             style={{
               background: "transparent",
-              color: "white",
+              color: " black",
               border: "none",
-              borderBottom: "1px solid white",
+              borderBottom: "1px solid  black",
               width: "100%",
               padding: "8px",
               borderRadius: "4px",
@@ -128,9 +128,9 @@ const navigate=useNavigate()
             required
             style={{
               background: "transparent",
-              color: "white",
+              color: " black",
               border: "none",
-              borderBottom: "1px solid white",
+              borderBottom: "1px solid  black",
               width: "100%",
               padding: "8px",
               borderRadius: "4px",
@@ -138,7 +138,39 @@ const navigate=useNavigate()
             }}
           ></textarea>
         </div>
+        <label htmlFor="payment" style={{ display: "block" }}>Type of payment:</label>
+        <select
+            id="payment"
+            required
+            value={selectedOption}
+            onChange={handleSelectChange}
+            style={{
+              background: "transparent",
+              color: " black",
+              border: "none",
+              borderBottom: "1px solid  black",
+              width: "100%",
+              padding: "8px",
+              borderRadius: "4px",
+            }}
+          >
+            <option value="" className="text-black">
+              Select an option
+            </option>
+            
+              <option value="Hour" className="text-black">
+                per hour
+              </option>
 
+              <option value="Day" className="text-black">
+                per Day
+              </option>
+
+              <option value="Full" className="text-black">
+                Full Payment
+              </option>
+          
+          </select>
         <div style={{ marginBottom: "16px" }}>
           <label htmlFor="price" style={{ display: "block" }}>
             Price:
@@ -151,9 +183,9 @@ const navigate=useNavigate()
             required
             style={{
               background: "transparent",
-              color: "white",
+              color: " black",
               border: "none",
-              borderBottom: "1px solid white",
+              borderBottom: "1px solid  black",
               width: "100%",
               padding: "8px",
               borderRadius: "4px",
@@ -177,9 +209,9 @@ const navigate=useNavigate()
                 }}
                 style={{
                   background: "transparent",
-                  color: "white",
+                  color: " black",
                   border: "none",
-                  borderBottom: "1px solid white",
+                  borderBottom: "1px solid  black",
                   width: "50%",
                   marginRight: "8px",
                   padding: "8px",
@@ -196,9 +228,9 @@ const navigate=useNavigate()
                 }}
                 style={{
                   background: "transparent",
-                  color: "white",
+                  color: " black",
                   border: "none",
-                  borderBottom: "1px solid white",
+                  borderBottom: "1px solid  black",
                   width: "30%",
                   marginRight: "8px",
                   padding: "8px",
@@ -214,8 +246,8 @@ const navigate=useNavigate()
                 }}
                 style={{
                   background: "transparent",
-                  color: "white",
-                  border: "1px solid white",
+                  color: " black",
+                  border: "1px solid  black",
                   borderRadius: "4px",
                   padding: "4px 8px",
                   cursor: "pointer",
@@ -233,9 +265,9 @@ const navigate=useNavigate()
               onChange={(e) => setLinkUrl(e.target.value)}
               style={{
                 background: "transparent",
-                color: "white",
+                color: " black",
                 border: "none",
-                borderBottom: "1px solid white",
+                borderBottom: "1px solid  black",
                 width: "50%",
                 marginRight: "8px",
                 padding: "8px",
@@ -249,9 +281,9 @@ const navigate=useNavigate()
               onChange={(e) => setLinkName(e.target.value)}
               style={{
                 background: "transparent",
-                color: "white",
+                color: " black",
                 border: "none",
-                borderBottom: "1px solid white",
+                borderBottom: "1px solid  black",
                 width: "30%",
                 marginRight: "8px",
                 padding: "8px",
@@ -263,8 +295,8 @@ const navigate=useNavigate()
               onClick={handleAddLink}
               style={{
                 background: "transparent",
-                color: "white",
-                border: "1px solid white",
+                color: " black",
+                border: "1px solid  black",
                 borderRadius: "4px",
                 padding: "4px 8px",
                 cursor: "pointer",
@@ -285,9 +317,9 @@ const navigate=useNavigate()
             onChange={handleFileUpload}
             style={{
               background: "transparent",
-              color: "white",
+              color: " black",
               border: "none",
-              borderBottom: "1px solid white",
+              borderBottom: "1px solid  black",
               width: "100%",
               padding: "8px",
               borderRadius: "4px",
@@ -305,9 +337,9 @@ const navigate=useNavigate()
             onChange={handleSelectChange}
             style={{
               background: "transparent",
-              color: "white",
+              color: " black",
               border: "none",
-              borderBottom: "1px solid white",
+              borderBottom: "1px solid  black",
               width: "100%",
               padding: "8px",
               borderRadius: "4px",
@@ -329,7 +361,7 @@ const navigate=useNavigate()
           style={{
             background: "white",
             color: "black",
-            border: "none",
+            border: "1px solid",
             borderRadius: "4px",
             padding: "8px 16px",
             cursor: "pointer",

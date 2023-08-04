@@ -1,5 +1,6 @@
+
 .App {
-  background: #000;
+  background: #fafafa;
 }
 .loading {
   background: rgba(255, 255, 255, 0.468);
@@ -20,13 +21,17 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #fff; /* White background */
+  background: #000; /* White background */
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #000; /* Black background */
-  border: 2px solid #fff;
+  background: #fff; /* Black background */
+  border: 2px solid #000;
+}
+
+.bg-noForImg{
+  mix-blend-mode: difference;
 }
 
 /* Handle on hover */
@@ -74,21 +79,29 @@
   background: whitesmoke;
   border-radius: 100%;
   aspect-ratio: 1/1;
+  width: 150px;
 }
 .card-grid {
   display: grid;
   flex-wrap: wrap;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
   grid-gap: 10px;
+  padding: 5px;
 }
 @media (max-width: 1300px) {
   .card-grid {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
+
+@media (max-width: 0px) {
+  .card-grid {
+    grid-template-columns: 1fr 1fr  ;
+  }
+}
 @media (max-width: 878px) {
   .card-grid {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr ;
   }
 }
 @media (max-width: 620px) {
@@ -96,16 +109,17 @@
     grid-template-columns: 1fr 1fr;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 560px) {
   .card-grid {
     grid-template-columns: 1fr;
   }
 }
 .cards {
-  border: 1px solid whitesmoke;
+  border: 1px solid #000000;
   width: 50%;
   /* border-radius: 8px; */
   margin-top: 20px;
+  animation: shadeSlideUp 1s;
 }
 .height-100vh-min {
   min-height: 100vh;
@@ -182,6 +196,9 @@
   transform: scaleX(0);
   transition: all 0.3s ease-in-out;
 }
+.userDetails h4{
+  font-size: 17px;
+}
 
 .link:hover {
   color: white;
@@ -192,12 +209,110 @@
   transform: scaleX(1);
 }
 .border-box{
-  border: 1px solid;
+  border: none;
   padding: 5px;
   min-height: 215px;
+  width: 90vw;
 }
 @media (max-width: 400px) {
   .view h5{
     font-size: 16px;
   }
+}
+.h-40px{
+  height: 40px;
+}
+.confirmation-box{
+  position: fixed;
+  width: 300px;
+  aspect-ratio: 2/1;
+  border-radius: 3px;
+  background: #bbbaba;
+  padding: 10px;
+  border:1px solid black;
+  left: 50%;
+  top: 50%;
+  margin-top: -125px;
+  margin-left: -150px;
+  align-self: center;
+  /* animation: slideup 0.5s ease-out; */
+}
+
+@keyframes slideup {
+  0%{
+    top: 110%;
+  }
+  100%{
+    top: 50%;
+  }
+}
+.w-100vh{
+ width: 100%;
+}
+.transition-1s{
+  transition: 1s;
+}
+.border-radius-3{
+  border-radius: 3px;
+}
+
+@keyframes shadeSlideUp{
+  0%{
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.w-45{
+  width: 45%;
+}
+
+@media (max-width: 650px) {
+  .hide-650{
+    display: none;
+  }
+}
+.height-50vh-min{
+ min-height: 50vh;
+}
+.btn-down:hover + .slide-down{
+  animation: shadeSlideUp 0.5s;
+  display: block;
+}
+.transition-05s{
+  transition:0.5s ease-in;
+}
+
+
+.slide-down:hover{
+  display: block;
+}
+.slide-down li:hover{
+  cursor: pointer;
+  color: #bbbaba;
+  transition: 0.5s;
+}
+.time{
+  font-size: 8.5px;
+  color: #979696;
+}
+
+.myStream-div{
+  background: #000;
+  width: 200px;
+  aspect-ratio: 27/2;
+  border-radius: 8px  !important;
+}
+.myStream-div video{
+  border-radius: 8px  !important;
+}
+
+.myVideo{
+  width: 200px;
+  right: 15px;
+  position:sticky;
+  bottom: 66px;
 }

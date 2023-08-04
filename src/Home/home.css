@@ -1,13 +1,13 @@
 .toggle-content {
   flex-direction: column;
   position: absolute;
-  background: #000;
+  background: rgb(17 24 39);
   right: 0;
   top: 30px;
   display: none;
 }
 .home {
-  background: #000;
+  background: rgb(17 24 39);
 }
 .btn-toggle:hover + .toggle-content,
 .toggle-content:hover {
@@ -38,6 +38,8 @@
 
 .about-img {
   filter: invert(1);
+  width: 40vw;
+  mix-blend-mode: difference;
 }
 @media (max-width: 600px) {
   .size-20 {
@@ -195,4 +197,82 @@
     font-size: 16px;
     cursor: pointer;
   }
+  
+  .notification-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .notification-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .notification-buttons {
+    display: flex;
+    /* justify-content: start; */
+    width: 100%;
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .notification-button {
+    padding: 0px 20px;
+    font-size: 16px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .notification-button.active {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .notification-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    color: #000;
+  }
+  
+  .notification-card {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    border: 1px solid #000;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .notification-card-header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .notification-card-body {
+    font-size: 14px;
+  }
+ .showUsers{
+  max-height: 600px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+ }
+ 
   

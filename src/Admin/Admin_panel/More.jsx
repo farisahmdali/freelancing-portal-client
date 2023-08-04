@@ -16,14 +16,35 @@ function More(props) {
   const [editPost, setEditPost] = useState();
   const navigate = useNavigate();
   const types = [
-    "Web development",
-    "Ui/Ux design",
-    "Civil Engineeer",
+    "Web Development",
+    "UI/UX Design",
+    "Civil Engineer",
     "Graphic Designer",
     "App Development",
-    "Game development",
-    "Cyber Security",
+    "Game Development",
+    "Cybersecurity",
     "DevOps",
+    "Data Science",
+    "Digital Marketing",
+    "Content Writing",
+    "Mobile Development",
+    "Cloud Computing",
+    "Machine Learning",
+    "Network Engineering",
+    "Software Testing",
+    "Blockchain Development",
+    "Social Media Management",
+    "Video Editing",
+    "IT Support",
+    "Copywriting",
+    "E-commerce Development",
+    "Motion Graphics",
+    "Database Administration",
+    "SEO Specialist",
+    "AR/VR Development",
+    "Product Design",
+    "Network Security",
+    "Illustration",
   ];
 
   const handleUpdate = () => {
@@ -43,36 +64,42 @@ function More(props) {
       });
   };
 
-  const handleDelete=()=>{
-    let confirm = window.confirm("do you want to delete")
-    if(confirm){
-    instance.post("/admin/delete",{
-      token:cookies.getItem("token"),
-      _id:user._id
-    }).then(()=>{
-      navigate("/admin_panel",{replace:true})
-    }).catch(() => {
-      cookies.removeItem("token");
-      navigate("/", { replace: true });
-    });
-  }
-  }
+  const handleDelete = () => {
+    let confirm = window.confirm("do you want to delete");
+    if (confirm) {
+      instance
+        .post("/admin/delete", {
+          token: cookies.getItem("token"),
+          _id: user._id,
+        })
+        .then(() => {
+          navigate("/admin_panel", { replace: true });
+        })
+        .catch(() => {
+          cookies.removeItem("token");
+          navigate("/", { replace: true });
+        });
+    }
+  };
 
-  const handleBlock=()=>{
-    let confirm = window.confirm("do you want to proceed")
-    if(confirm){
-    instance.post("/admin/block",{
-      token:cookies.getItem("token"),
-      _id:user._id,
-      event:user?.blocked ? false : true
-    }).then(()=>{
-      navigate("/admin_panel",{replace:true})
-    }).catch(() => {
-      cookies.removeItem("token");
-      navigate("/", { replace: true });
-    });
-  }
-  }
+  const handleBlock = () => {
+    let confirm = window.confirm("do you want to proceed");
+    if (confirm) {
+      instance
+        .post("/admin/block", {
+          token: cookies.getItem("token"),
+          _id: user._id,
+          event: user?.blocked ? false : true,
+        })
+        .then(() => {
+          navigate("/admin_panel", { replace: true });
+        })
+        .catch(() => {
+          cookies.removeItem("token");
+          navigate("/", { replace: true });
+        });
+    }
+  };
 
   useEffect(() => {
     instance
@@ -90,7 +117,7 @@ function More(props) {
   }, [user._id, loading, editPost]);
 
   return (
-    <div className="container-fluid height-100vh-min text-light">
+    <div className="container-fluid m-5 height-100vh-min">
       {loading ? <Loading /> : null}
       {editPost ? (
         <EditPosts
@@ -105,11 +132,10 @@ function More(props) {
           CustomHandle={(data) => {
             setLoading(true);
             instance
-              .post("/admin/editPost", {
+              .patch("/admin/editPost/" + editPost._id, {
                 token: cookies.getItem("token"),
                 data,
                 userId: user._id,
-                id: editPost._id,
               })
               .then(() => {
                 setLoading(false);
@@ -123,9 +149,9 @@ function More(props) {
         />
       ) : (
         <div className="row pt-5">
-          <div className="d-flex flex-wrap justify-content-between">
-            <div className="d-flex flex-wrap">
-              <label htmlFor="file">
+          <div className="flex flex-wrap justify-between">
+            <div className="flex w-1/2 border">
+              <label htmlFor="file" className="flex justify-center w-1/3">
                 <img src={user.pic} alt="" height={200} className="imgAdmin" />
                 <input
                   type="file"
@@ -151,21 +177,17 @@ function More(props) {
                   id="file"
                 />
               </label>
-              <div className="d-flex ms-sm-5 flex-column justify-content-between">
+              <div className="flex self-center p-5">
                 <div>
-              
-                    <h2>
-                      Username : {user.username}
-                    </h2>
-                  
+                  <h2>Username : {user.username}</h2>
                   {edit === "name" ? (
                     <input
                       type="text"
                       style={{
                         background: "transparent",
-                        color: "white",
+                        color: "black",
                         border: "none",
-                        borderBottom: "1px solid white",
+                        borderBottom: "1px solid black",
                         width: "100%",
                         padding: "8px",
                         borderRadius: "4px",
@@ -183,14 +205,16 @@ function More(props) {
                   ) : (
                     <h2 onClick={() => setEdit("name")}>Name : {user.name}</h2>
                   )}{" "}
+                  {/* </div>
+                  <div className="ms-5"> */}
                   {edit === "phone" ? (
                     <input
                       type="number"
                       style={{
                         background: "transparent",
-                        color: "white",
+                        color: "black",
                         border: "none",
-                        borderBottom: "1px solid white",
+                        borderBottom: "1px solid black",
                         width: "100%",
                         padding: "8px",
                         borderRadius: "4px",
@@ -224,9 +248,9 @@ function More(props) {
                       }
                       style={{
                         background: "transparent",
-                        color: "white",
+                        color: "black",
                         border: "none",
-                        borderBottom: "1px solid white",
+                        borderBottom: "1px solid black",
                         width: "100%",
                         padding: "8px",
                         borderRadius: "4px",
@@ -246,17 +270,30 @@ function More(props) {
                       Role : {user.workAs || "nill"}
                     </h2>
                   )}
-                </div>
-                <div className="d-flex justify-content-between">
-                  <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
-                  <button className="btn-primary" onClick={handleUpdate}>
-                    Update
-                  </button>
-                  <button className="btn btn-danger" onClick={handleBlock}>{user?.blocked ? "Unblock" : "Block"}</button>
+                  <div className="flex justify-between mt-3">
+                    <button
+                      className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                      onClick={handleUpdate}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                      onClick={handleBlock}
+                    >
+                      {user?.blocked ? "Unblock" : "Block"}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="cards col-md-6 col-12 bg-black border-light p-1">
+            <div className="border border-solid w-5/12">
               <h4 className="text-decoration-underline">Reports</h4>
             </div>
           </div>
@@ -276,10 +313,10 @@ function More(props) {
                     if (confirm) {
                       setLoading(true);
                       instance
-                        .post("/admin/deletePost", {
-                          token: cookies.getItem("token"),
-                          userId: user._id,
-                          id: x._id,
+                        .delete("/admin/deletePost/" + user._id + "/" + x._id, {
+                          params: {
+                            token: cookies.getItem("token"),
+                          },
                         })
                         .then(() => setLoading(false))
                         .catch((err) => {

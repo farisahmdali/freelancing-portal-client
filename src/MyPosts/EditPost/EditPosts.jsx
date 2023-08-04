@@ -25,14 +25,36 @@ const EditPosts = ({
   const [selectedOption, setSelectedOption] = useState(select);
   const types = [
     "Web Development",
-    "Ui/Ux design",
-    "Civil Engineeer",
+    "UI/UX Design",
+    "Civil Engineer",
     "Graphic Designer",
     "App Development",
-    "Game development",
-    "Cyber Security",
+    "Game Development",
+    "Cybersecurity",
     "DevOps",
-  ];
+    "Data Science",
+    "Digital Marketing",
+    "Content Writing",
+    "Mobile Development",
+    "Cloud Computing",
+    "Machine Learning",
+    "Network Engineering",
+    "Software Testing",
+    "Blockchain Development",
+    "Social Media Management",
+    "Video Editing",
+    "IT Support",
+    "Copywriting",
+    "E-commerce Development",
+    "Motion Graphics",
+    "Database Administration",
+    "SEO Specialist",
+    "AR/VR Development",
+    "Product Design",
+    "Network Security",
+    "Illustration",
+    "Photography"
+];
 
   const handleSubmit = (e) => {
     let data= {
@@ -51,10 +73,9 @@ const EditPosts = ({
       // Perform form submission logic here
 
       instance
-        .post("/updatePost", {
+        .patch("/updatePost/"+_id, {
           token: cookies.getItem("token"),
           data,
-          id: _id,
         })
         .then((res) => {
           setHeading("");
@@ -63,9 +84,10 @@ const EditPosts = ({
           setLinks([]);
           setFile(null);
           setSelectedOption("");
-          close();
         });
     }
+    close();
+
   };
 
   const handleAddLink = () => {
@@ -94,8 +116,8 @@ const EditPosts = ({
   return (
     <div
       style={{
-        background: "black",
-        color: "white",
+        background: "white",
+        color: "black ",
         zIndex: "999",
         padding: "24px",
         borderRadius: "8px",
@@ -104,7 +126,7 @@ const EditPosts = ({
       className="height-100vh-min w-100 position-absolute left-0 top-0"
     >
       <button
-        className="btn-close btn-close-white"
+        className="btn-close btn-close"
         onClick={() => close()}
       ></button>
       {loading ? <Loading /> : null}
@@ -122,9 +144,9 @@ const EditPosts = ({
             required
             style={{
               background: "transparent",
-              color: "white",
+              color: "black",
               border: "none",
-              borderBottom: "1px solid white",
+              borderBottom: "1px solid black",
               width: "100%",
               padding: "8px",
               borderRadius: "4px",
@@ -143,9 +165,9 @@ const EditPosts = ({
             required
             style={{
               background: "transparent",
-              color: "white",
+              color: "black",
               border: "none",
-              borderBottom: "1px solid white",
+              borderBottom: "1px solid black",
               width: "100%",
               padding: "8px",
               borderRadius: "4px",
@@ -166,9 +188,9 @@ const EditPosts = ({
             required
             style={{
               background: "transparent",
-              color: "white",
+              color: "black",
               border: "none",
-              borderBottom: "1px solid white",
+              borderBottom: "1px solid black",
               width: "100%",
               padding: "8px",
               borderRadius: "4px",
@@ -192,9 +214,9 @@ const EditPosts = ({
                 }}
                 style={{
                   background: "transparent",
-                  color: "white",
+                  color: "black",
                   border: "none",
-                  borderBottom: "1px solid white",
+                  borderBottom: "1px solid black",
                   width: "50%",
                   marginRight: "8px",
                   padding: "8px",
@@ -211,9 +233,9 @@ const EditPosts = ({
                 }}
                 style={{
                   background: "transparent",
-                  color: "white",
+                  color: "black",
                   border: "none",
-                  borderBottom: "1px solid white",
+                  borderBottom: "1px solid black",
                   width: "30%",
                   marginRight: "8px",
                   padding: "8px",
@@ -229,8 +251,8 @@ const EditPosts = ({
                 }}
                 style={{
                   background: "transparent",
-                  color: "white",
-                  border: "1px solid white",
+                  color: "black",
+                  border: "1px solid black",
                   borderRadius: "4px",
                   padding: "4px 8px",
                   cursor: "pointer",
@@ -248,9 +270,9 @@ const EditPosts = ({
               onChange={(e) => setLinkUrl(e.target.value)}
               style={{
                 background: "transparent",
-                color: "white",
+                color: "black",
                 border: "none",
-                borderBottom: "1px solid white",
+                borderBottom: "1px solid black",
                 width: "50%",
                 marginRight: "8px",
                 padding: "8px",
@@ -264,9 +286,9 @@ const EditPosts = ({
               onChange={(e) => setLinkName(e.target.value)}
               style={{
                 background: "transparent",
-                color: "white",
+                color: "black",
                 border: "none",
-                borderBottom: "1px solid white",
+                borderBottom: "1px solid black",
                 width: "30%",
                 marginRight: "8px",
                 padding: "8px",
@@ -278,8 +300,8 @@ const EditPosts = ({
               onClick={handleAddLink}
               style={{
                 background: "transparent",
-                color: "white",
-                border: "1px solid white",
+                color: "black",
+                border: "1px solid black",
                 borderRadius: "4px",
                 padding: "4px 8px",
                 cursor: "pointer",
@@ -321,9 +343,9 @@ const EditPosts = ({
             onChange={handleSelectChange}
             style={{
               background: "transparent",
-              color: "white",
+              color: "black",
               border: "none",
-              borderBottom: "1px solid white",
+              borderBottom: "1px solid black",
               width: "100%",
               padding: "8px",
               borderRadius: "4px",
@@ -343,8 +365,8 @@ const EditPosts = ({
         <button
           type="submit"
           style={{
-            background: "white",
-            color: "black",
+            background: "black",
+            color: "white",
             border: "none",
             borderRadius: "4px",
             padding: "8px 16px",

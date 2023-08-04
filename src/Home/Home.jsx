@@ -1,5 +1,4 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.css";
 import { useNavigate } from "react-router-dom";
 import "./home.css";
 import NavBar from "../Component/NavBar";
@@ -12,12 +11,13 @@ import img from "../asset/about.jpg";
 
 function Home() {
   const navigate = useNavigate();
+  
   return (
     <div className="home" id="home">
       <NavBar />
       <div className="content">
-        <h1 className="w-md-50 text-light">A spot for creative to get a job</h1>
-        <p className="text-light w-md-50">
+        <h1 className="mb-4 mt-20 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">A spot for creative to get a job</h1>
+        <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
           Unleash your skills, seize opportunities, shape your destiny. Join our
           team, where limitless possibilities await talented
           professionals like you.
@@ -28,33 +28,32 @@ function Home() {
         >
           Get Started
         </button>
-        <div className="d-flex justify-content-between divhuman  w-75">
+        <div className="flex divhuman">
           <img src={human1} alt="" />
           <img src={human2} alt="" />
           <img src={human3} alt="" />
           <img src={human4} alt="" />
           <img src={human5} alt="" />
         </div>
-        <h1 className="w-50 text-light">
+        <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">
           Welcome to GetDone, the ultimate platform connecting freelancers with
           clients. Find the perfect match for your project or discover exciting
           opportunities to showcase your skills.
         </h1>
       </div>
 
-      <footer className="mt-5 container-fluid">
-        <div className="row">
+        <div className="row grid md:grid-cols-2">
           <div className="about mt-5 col-md-6">
-            <h2 className="text-decoration-underline text-light ">About Us</h2>
-            <p className="text-light  size-20 ">
+            <h2 className="text-decoration-underline text-white ">About Us</h2>
+            <p className="text-white  size-20 ">
               At GetDone, we believe in the power of talent and collaboration.
               Our mission is to empower freelancers and businesses by providing
               a seamless platform to connect, communicate, and succeed together.
               Whether you're a freelancer looking for projects or a client in
               search of top-notch talent, we've got you covered.
             </p>
-            <h3 className="text-light">How it works:</h3>
-            <ul className="text-light">
+            <h3 className="text-white">How it works:</h3>
+            <ul className=" space-y-1 text-white list-disc list-inside ">
               <li>
                 Create a Profile: Build a comprehensive profile that highlights
                 your expertise, skills, and portfolio.
@@ -82,9 +81,8 @@ function Home() {
             </ul>
           </div>
 
-          <img src={img} className="about-img col-md-5 float-end" alt="" />
+          <img src={img} className="about-img" alt="" />
         </div>
-      </footer>
     </div>
   );
 }

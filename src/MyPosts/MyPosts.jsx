@@ -22,6 +22,7 @@ function MyPosts() {
         },
       })
       .then((res) => {
+        console.log(res.data);
         setSearch(res.data.result);
         setPosts(res.data.result);
       });
@@ -39,6 +40,13 @@ function MyPosts() {
           amount={edit.price}
           _id={edit._id}
           select={edit.type}
+          CustomHandle={(data)=>{
+            instance
+            .patch("/updatePost/"+edit._id, {
+              token: cookies.getItem("token"),
+              data,
+            })
+          }}
         />
       ) : (
         <div>
@@ -46,7 +54,7 @@ function MyPosts() {
           <div className="d-flex flex-column">
             <div className="p-2 w-100">
               <button
-                className="btn-primary float-end"
+                className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 onClick={() => {
                   navigate("/createPost");
                 }}
@@ -57,15 +65,9 @@ function MyPosts() {
             <div className="p-5">
               <input
                 type="text"
+                className="p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg  focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="search"
-                style={{
-                  background: "transparent",
-                  color: "white",
-                  border: "none",
-                  borderBottom: "1px solid white",
-                  padding: "8px",
-                  borderRadius: "4px",
-                }}
+                
                 onChange={(e) =>
                   setSearch(
                     posts?.filter((x) => {
@@ -90,9 +92,10 @@ function MyPosts() {
                     let confirm = window.confirm("do you want to delete")
                     if(confirm){
                       setLoading(true)
-                      instance.post("/deletePost",{
-                        token:cookies.getItem("token"),
-                        id:x._id
+                      instance.delete("/deletePost/"+x._id,{
+                        params:{
+                          token:cookies.getItem("token"),
+                        }
                       }).then(()=>setLoading(false))
                     }
                   }}

@@ -16,20 +16,24 @@ function CardDashboard({gig,view}) {
   if(end===true)
   shortdes=shortdes+'...'
   return (
-    <div onClick={()=>{
-      navigate(`/post/${gig.userId}/${gig._id}`)
+   
+<div className="max-w-sm rounded overflow-hidden shadow-lg" onClick={()=>{
+      if(view){
+        navigate(`/post/${gig.userId}/${gig._id}`)
+      }
     }}>
-        <div className="card1">
-      <div className="card-content1">
-      <img src={gig?.pic} alt={gig?.head} className="card-image1" />
-        <h3 className="card-heading1">{gig?.head}</h3>
-        <p className="card-description1">{shortdes}</p>
-        <div className="card-links1">
-        </div>
-      </div>
-        <p className="card-price1">${gig?.price}</p>
-    </div>
-    </div>
+  <img className="w-full" src={gig?.pic} alt={gig?.head} />
+  <div className="px-6 py-4">
+    <div className="font-bold text-xl mb-2">{gig?.head}</div>
+    <p className="text-gray-700 text-base">
+    {shortdes}
+    </p>
+  </div>
+  <div className="px-6 pt-4 pb-2">
+    <span className="inline-block  px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${gig?.price}</span>
+  </div>
+</div>
+
   )
 }
 

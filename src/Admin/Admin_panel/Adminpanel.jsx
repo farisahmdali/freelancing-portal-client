@@ -25,11 +25,11 @@ function Admin_panel() {
   }, []);
 
   return (
-    <div className="admin_panel text-white container">
+    <div className="admin_panel t container">
       <div className="row">
         <div>
           <button
-            className="btn btn-danger"
+            className="bg-red-500 p-2 rounded  hover:bg-red-600 hover:text-white"
             onClick={() => {
               val.setUser();
               navigate("/", { replace: true });
@@ -38,14 +38,14 @@ function Admin_panel() {
             logout
           </button>
         </div>
-        <div className="p-3">
+        <div className="relative overflow-x-auto">
           <input
             type="text"
             style={{
               background: "transparent",
-              color: "white",
+              color: "black",
               border: "none",
-              borderBottom: "1px solid white",
+              borderBottom: "1px solid black",
               padding: "8px",
               borderRadius: "4px",
             }}
@@ -61,27 +61,27 @@ function Admin_panel() {
             }
           />
         </div>
-        <table className="table table-striped table-dark">
-          <thead>
+        <table className="w-full text-sm mt-5 text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Username</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Role</th>
-              <th scope="col"></th>
+              <th scope="col" className="px-6 py-3">#</th>
+              <th scope="col" className="px-6 py-3">Name</th>
+              <th scope="col" className="px-6 py-3">Username</th>
+              <th scope="col" className="px-6 py-3">Phone</th>
+              <th scope="col" className="px-6 py-3">Role</th>
+              <th scope="col" className="px-6 py-3"></th>
             </tr>
           </thead>
           <tbody>
             {search?.map((x, index) => (
-              <tr className={x?.blocked ? "blocked" : null}>
-                <th scope="row">{index + 1}</th>
-                <td>{x.name}</td>
-                <td>{x.username}</td>
-                <td>{x?.phone || "nill"}</td>
-                <td>{x?.workAs || "nill"}</td>
+              <tr className={x?.blocked ? "blocked" : "bg-white border-b dark:bg-gray-800 dark:border-gray-700"}>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</th>
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{x.name}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{x.username}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{x?.phone || "nill"}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{x?.workAs || "nill"}</td>
                 <td
-                  className="text-danger cursor-point text-decoration-underline"
+                  className="px-2 py-2 cursor-point text-red-500 underline whitespace-nowrap "
                   onClick={() => {
                     console.log(x);
                     val.setUser(x);
