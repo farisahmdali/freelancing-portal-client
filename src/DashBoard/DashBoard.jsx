@@ -97,12 +97,37 @@ function DashBoard() {
     <div className="height-100vh-min ">
       <div>
         <NavBar2 />
-        <div className="flex flex-col p-3">
-          <div className="flex w-2/4 float-right flex-wrap justify-between">
+        <div className="flex flex-col ps-3 pe-3 pb-3">
+          <div className="w-full flex flex-wrap ">
+            <label
+              htmlFor="default-search"
+              className="mb-2 mt-3 text-sm font-medium text-gray-900 sr-only "
+            >
+              Search
+            </label>
+            <div className="relative mt-3">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
               <input
-                type="text"
-                className="p-4 pl-10 text-sm h-40px text-gray-900 border border-gray-300 rounded-lg  focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500 "
-                placeholder="search"
+                type="search"
+                id="default-search"
+                className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
+                placeholder="Search Mockups, Logos..."
                 onChange={(e) =>
                   setSearch(
                     showPosts?.filter((x) => {
@@ -113,9 +138,13 @@ function DashBoard() {
                   )
                 }
               />
-              <div className="flex">
+            </div>
 
-              <label htmlFor="option">Type:  </label>
+            
+
+            <div className="ps-5">
+            <label htmlFor="option" className="block mb-2 text-sm font-medium text-gray-900 ">Select Type:-</label>
+
               <select
                 id="option"
                 onChange={(e) => {
@@ -127,7 +156,7 @@ function DashBoard() {
                     })
                   );
                 }}
-                className="border w-45  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5  dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               >
                 <option value="" className="text-black">
                   Select an option
@@ -138,8 +167,7 @@ function DashBoard() {
                   </option>
                 ))}
               </select>
-              </div>
-
+            </div>
           </div>
           <div className="card-grid">
             {search?.map((x) => (

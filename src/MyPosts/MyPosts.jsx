@@ -75,14 +75,16 @@ function MyPosts() {
             instance.patch("/updatePost/" + edit._id, {
               token: cookies.getItem("token"),
               data,
-            });
+            }).catch(err=>{
+              console.error(err);
+            })
           }}
         />
       ) : (
         <div>
           <NavBar2 />
-          <div className="d-flex flex-column">
-            <div className="p-2 w-100">
+          <div className="ps-3 pe-3 pb-3">
+            <div className="p-2 w-100 float-right">
               <button
                 className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 onClick={() => {
@@ -92,11 +94,37 @@ function MyPosts() {
                 Create post
               </button>
             </div>
-            <div className="p-5">
+            
+            <div className=" flex flex-wrap ">
+            <label
+              htmlFor="default-search"
+              className="mb-2 mt-3 text-sm font-medium text-gray-900 sr-only "
+            >
+              Search
+            </label>
+            <div className="relative mt-3">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
               <input
-                type="text"
-                className="border w-45 mt-3 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5  dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="search"
+                type="search"
+                id="default-search"
+                className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
+                placeholder="Search Mockups, Logos..."
                 onChange={(e) =>
                   setSearch(
                     posts?.filter((x) => {
@@ -107,6 +135,13 @@ function MyPosts() {
                   )
                 }
               />
+            </div>
+
+            
+
+            <div className="ps-5">
+            <label htmlFor="option" className="block mb-2 text-sm font-medium text-gray-900 ">Select Type:-</label>
+
               <select
                 id="option"
                 onChange={(e) => {
@@ -118,7 +153,7 @@ function MyPosts() {
                     })
                   );
                 }}
-                className="border w-45 mt-3 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5  dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               >
                 <option value="" className="text-black">
                   Select an option
@@ -130,6 +165,7 @@ function MyPosts() {
                 ))}
               </select>
             </div>
+          </div>
             <div className="card-grid">
               {search?.map((x) => (
                 <Card1

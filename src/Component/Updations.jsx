@@ -31,7 +31,7 @@ function Updations({ close, data, user }) {
   return (
     <div className="height-100vh-min w-100vh transition-1s  z-3 top-0">
       {loading ? <Loading /> : null}
-      <button className="bg-red-500 hover:bg-red-600 pt-2 pb-2 pe-3 ps-3 top-20 fixed left-5 rounded-full text-white" onClick={() => close()}>{"X"}</button>
+      <button className="bg-red-500 hover:bg-red-600 pt-2 pb-2 pe-3 ps-3 top-20 absolute left-5 rounded-full text-white" onClick={() => close()}>{"X"}</button>
       <div className="container">
         <section className="text-gray-700 body-font overflow-hidden bg-white">
           <div className="container px-5 py-24 mx-auto">

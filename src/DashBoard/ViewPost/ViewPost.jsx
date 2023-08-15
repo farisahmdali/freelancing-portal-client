@@ -138,11 +138,12 @@ function ViewPost() {
               </h1>
 
               <p className="leading-relaxed">{data?.description}.</p>
-{userId !== val.user._id ? 
+
               <div className="flex">
                 <span className="title-font font-medium text-2xl text-gray-900">
                   ${data?.price}
                 </span>
+              {userId !== val.user._id ?   <>
                 <button
                   onClick={() => {
                     setConfirm(true);
@@ -179,7 +180,15 @@ function ViewPost() {
                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
                   </svg>
                 </button>
-              </div>:null}
+                </>:null}
+              </div><br/><br/>
+              <div>
+                <h3 className="text-lg font-bold underline">Links</h3>
+                {data?.links?.map(({name,url})=>(
+                  <a href={`https://${url}`} className="styled-link">{name}</a>
+                )
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -181,11 +181,12 @@ const EditPosts = ({
             Price:
           </label>
           <input
-            type="text"
+            type="number"
             id="price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             required
+            min={0}
             style={{
               background: "transparent",
               color: "black",
