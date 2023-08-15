@@ -138,39 +138,6 @@ const navigate=useNavigate()
             }}
           ></textarea>
         </div>
-        <label htmlFor="payment" style={{ display: "block" }}>Type of payment:</label>
-        <select
-            id="payment"
-            required
-            value={selectedOption}
-            onChange={handleSelectChange}
-            style={{
-              background: "transparent",
-              color: " black",
-              border: "none",
-              borderBottom: "1px solid  black",
-              width: "100%",
-              padding: "8px",
-              borderRadius: "4px",
-            }}
-          >
-            <option value="" className="text-black">
-              Select an option
-            </option>
-            
-              <option value="Hour" className="text-black">
-                per hour
-              </option>
-
-              <option value="Day" className="text-black">
-                per Day
-              </option>
-
-              <option value="Full" className="text-black">
-                Full Payment
-              </option>
-          
-          </select>
         <div style={{ marginBottom: "16px" }}>
           <label htmlFor="price" style={{ display: "block" }}>
             Price:
@@ -181,6 +148,7 @@ const navigate=useNavigate()
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             required
+            min={1}
             style={{
               background: "transparent",
               color: " black",
@@ -315,6 +283,7 @@ const navigate=useNavigate()
             type="file"
             id="file"
             onChange={handleFileUpload}
+            required
             style={{
               background: "transparent",
               color: " black",

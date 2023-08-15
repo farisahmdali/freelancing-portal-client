@@ -61,7 +61,7 @@ function NavBar2() {
               onClick={() => navigate("/notification")}
               className="text-white"
             >
-              Notifications
+              Connection
             </li>
             <li onClick={() => navigate("/saved")} className="text-white">
               Saved

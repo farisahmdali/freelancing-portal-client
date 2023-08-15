@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 function More(props) {
   const val = useContext(userData);
   const [user, setUser] = useState(val.user);
+  const [report,setReport]=useState([])
   const [edit, setEdit] = useState("");
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -109,7 +110,10 @@ function More(props) {
           id: user._id,
         },
       })
-      .then((res) => setPosts(res.data.result))
+      .then((res) => {
+        setPosts(res.data.result);
+        setReport(res?.data?.reports)
+      })
       .catch(() => {
         cookies.removeItem("token");
         navigate("/", { replace: true });
@@ -284,7 +288,7 @@ function More(props) {
                       Update
                     </button>
                     <button
-                      className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                      className="focus:outline-none text-white bg-red-700  hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                       onClick={handleBlock}
                     >
                       {user?.blocked ? "Unblock" : "Block"}
@@ -293,8 +297,13 @@ function More(props) {
                 </div>
               </div>
             </div>
-            <div className="border border-solid w-5/12">
-              <h4 className="text-decoration-underline">Reports</h4>
+            <div className="border border-solid w-5/12 overflow-y-auto">
+              <h4 className="underline">Reports</h4>
+              <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+                {report?.map(x=>(
+                  <li className="ms-3">{x}</li>
+                ))}
+              </ul>
             </div>
           </div>
           <div className="pt-5">

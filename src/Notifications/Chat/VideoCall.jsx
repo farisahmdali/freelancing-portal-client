@@ -13,7 +13,7 @@ import peer from "../../configs/peer";
 
 let a = true;
 let b = true;
-function VideoCall({ data }) {
+function VideoCall({ data,close }) {
   const [myStream, setMyStream] = useState();
   const [remote, setRemote] = useState();
   const { socket, user } = useContext(userData);
@@ -99,6 +99,8 @@ function VideoCall({ data }) {
       // remotRef.current.srcObject = stream[0];
       console.log(stream);
     });
+
+    // peer.peer.addEventListener("")
   }, []);
 
   const handleToggleCamera = async () => {
@@ -117,6 +119,36 @@ function VideoCall({ data }) {
       });
   };
 
+  const handleToggleCameraWhileCalling = async () => {
+    try {
+      await ref.current.srcObject?.getVideoTracks()[0]?.stop();
+      await ref.current.srcObject?.getAudioTracks()[0]?.stop();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      await navigator.mediaDevices
+        .getUserMedia({ video: a, audio: b })
+        .then((streams) => {
+          console.log("working");
+          setMyStream(streams);
+          ref.current.srcObject = streams;
+        })
+        .catch((err) => {
+          console.log(err);
+          setMyStream();
+        });
+    }
+    // try {
+    //  await peer.peer.getSenders().forEach(sender =>  peer.peer.removeTrack());
+
+    //   for (const track of ref.current.srcObject?.getTracks()) {
+    //     peer.peer.addTrack(track, ref.current.srcObject);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
+
   useEffect(() => {
     socket.on("user:joined", sendOffer);
     socket.on("user:recieveoffer", recieveoffer);
@@ -132,7 +164,7 @@ function VideoCall({ data }) {
   return (
     <div className="flex flex-col justify-center height-100vh">
       {video ? (
-        <div className="flex justify-between self-center border-black border-solid border w-1/3 p-5">
+        <div className="flex justify-between flex-wrap self-center border-black border-solid border md:w-1/3 p-5">
           <div>
             <div className="myStream-div">
               <video ref={ref} className="myStream" autoPlay mute playsInline />
@@ -218,17 +250,16 @@ function VideoCall({ data }) {
               )}
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center ms-3">
             <button
               className=" text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
               onClick={() => {
                 setVideo(false);
-                try{
-
+                try {
                   for (const track of ref.current.srcObject?.getTracks()) {
                     peer.peer.addTrack(track, myStream);
                   }
-                }catch(err){
+                } catch (err) {
                   console.log(err);
                 }
               }}
@@ -249,19 +280,31 @@ function VideoCall({ data }) {
                 muted
               ></video>
             </div>
-            <div className="mt-4 w-full">
+            <div className="mt-4 w-full flex justify-center">
               {/* Remote video stream */}
-              <ReactPlayer url={remote} height="100%" width="100%" playing />
+              <ReactPlayer url={remote} height="70vh" width="80%" playing />
             </div>
             <div className="mt-4 flex justify-center space-x-4">
-              {/* Mute/Unmute button */}
-              <button className="px-4 py-2 bg-blue-500 text-white rounded-md">
-                Mute
-              </button>
-              {/* End call button */}
-              <button className="px-4 py-2 bg-red-500 text-white rounded-md">
+             
+              <button className="px-4 py-2 bg-red-500 text-white rounded-md" onClick={async()=>{
+                if( ref.current.srcObject?.getVideoTracks()[0]){
+                await  ref.current.srcObject?.getVideoTracks()[0].stop()
+                }
+
+                if( ref.current.srcObject?.getAudioTracks()[0]){
+                 await ref.current.srcObject?.getAudioTracks()[0].stop()
+                }
+
+                peer.peer.close()
+                close()
+                window.location.reload()
+              }}>
                 End Call
               </button>
+              <div className="flex justify-between mt-4 ">
+               
+               
+              </div>
             </div>
           </div>
         </div>

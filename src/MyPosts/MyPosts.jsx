@@ -11,7 +11,38 @@ function MyPosts() {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState([]);
   const [edit, setEdit] = useState();
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
+  const types = [
+    "Web Development",
+    "UI/UX Design",
+    "Civil Engineer",
+    "Graphic Designer",
+    "App Development",
+    "Game Development",
+    "Cybersecurity",
+    "DevOps",
+    "Data Science",
+    "Digital Marketing",
+    "Content Writing",
+    "Mobile Development",
+    "Cloud Computing",
+    "Machine Learning",
+    "Network Engineering",
+    "Software Testing",
+    "Blockchain Development",
+    "Social Media Management",
+    "Video Editing",
+    "IT Support",
+    "Copywriting",
+    "E-commerce Development",
+    "Motion Graphics",
+    "Database Administration",
+    "SEO Specialist",
+    "AR/VR Development",
+    "Product Design",
+    "Network Security",
+    "Illustration",
+  ];
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -26,10 +57,10 @@ function MyPosts() {
         setSearch(res.data.result);
         setPosts(res.data.result);
       });
-  }, [edit,loading]);
+  }, [edit, loading]);
   return (
     <div className="height-100vh-min">
-      {loading ? <Loading/>:null}
+      {loading ? <Loading /> : null}
       {edit ? (
         <EditPosts
           close={setEdit}
@@ -40,12 +71,11 @@ function MyPosts() {
           amount={edit.price}
           _id={edit._id}
           select={edit.type}
-          CustomHandle={(data)=>{
-            instance
-            .patch("/updatePost/"+edit._id, {
+          CustomHandle={(data) => {
+            instance.patch("/updatePost/" + edit._id, {
               token: cookies.getItem("token"),
               data,
-            })
+            });
           }}
         />
       ) : (
@@ -65,9 +95,8 @@ function MyPosts() {
             <div className="p-5">
               <input
                 type="text"
-                className="p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg  focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="border w-45 mt-3 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5  dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="search"
-                
                 onChange={(e) =>
                   setSearch(
                     posts?.filter((x) => {
@@ -78,6 +107,28 @@ function MyPosts() {
                   )
                 }
               />
+              <select
+                id="option"
+                onChange={(e) => {
+                  setSearch(
+                    posts?.filter((x) => {
+                      return x?.type
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase());
+                    })
+                  );
+                }}
+                className="border w-45 mt-3 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5  dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="" className="text-black">
+                  Select an option
+                </option>
+                {types.map((x) => (
+                  <option value={x} className="text-black">
+                    {x}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="card-grid">
               {search?.map((x) => (
@@ -88,15 +139,17 @@ function MyPosts() {
                   imageSrc={x.pic}
                   edit={setEdit}
                   fullData={x}
-                  deletePost={()=>{
-                    let confirm = window.confirm("do you want to delete")
-                    if(confirm){
-                      setLoading(true)
-                      instance.delete("/deletePost/"+x._id,{
-                        params:{
-                          token:cookies.getItem("token"),
-                        }
-                      }).then(()=>setLoading(false))
+                  deletePost={() => {
+                    let confirm = window.confirm("do you want to delete");
+                    if (confirm) {
+                      setLoading(true);
+                      instance
+                        .delete("/deletePost/" + x._id, {
+                          params: {
+                            token: cookies.getItem("token"),
+                          },
+                        })
+                        .then(() => setLoading(false));
                     }
                   }}
                 />

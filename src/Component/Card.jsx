@@ -3,6 +3,7 @@ import instance from '../axios/axios'
 import cookies from "js-cookies"
 
 function Card({ heading,price,reFetch,description,onClick,usersId,postId}) {
+  console.log(heading,price,reFetch,description,onClick,usersId,postId)
   return (
     <div className="d-flex justify-content-between m-2 bg-light border-radius-3" >
       <div className="card-content cursor-point" onClick={onClick}>
@@ -15,7 +16,8 @@ function Card({ heading,price,reFetch,description,onClick,usersId,postId}) {
             instance.post("/approvePost",{
                 token:cookies.getItem("token"),
                 postId,
-                usersId
+                usersId,
+                amount:price,
             })
             window.history.back();
 

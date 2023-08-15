@@ -2,15 +2,11 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { userData } from "../configs/userData";
 import cookie from "js-cookies";
 
-
-
-
-
-function MsgBox({ user, users,msgUser ,callUsers}) {
+function MsgBox({ user, users, msgUser, callUsers }) {
   const { socket, ...val } = useContext(userData);
   const [msg, setMsg] = useState("");
   const [showMsg, setShowMsg] = useState([]);
-  const [room,setRoom]=useState()
+  const [room, setRoom] = useState();
 
   const uniqueArray = users.filter((value, index, self) => {
     // Find the index of the first occurrence of the username in the array
@@ -23,9 +19,9 @@ function MsgBox({ user, users,msgUser ,callUsers}) {
   const divRef = useRef(null);
 
   const scrollToBottom = () => {
-    console.log(divRef)
+    console.log(divRef);
     if (divRef.current) {
-      divRef.current.scrollIntoView({ behavior: 'smooth' });
+      divRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -36,28 +32,29 @@ function MsgBox({ user, users,msgUser ,callUsers}) {
     });
 
     console.log(user);
-    socket.on("prevChat", ({data,room}) => {
-      setRoom(room)
-    setShowMsg([]);
-      setShowMsg([...data]);
+    socket.on("prevChat", ({ data, room }) => {
+      setRoom(room);
+      setShowMsg([]);
+      if(data){
+        setShowMsg([...data]);
+      }
     });
-
   }, [user]);
-
- 
 
   // console.log(showMsg)
 
   socket.on("answer", (data) => {
     let chat = [...showMsg, data];
     setShowMsg(chat);
-    scrollToBottom();
+    if (chat) {
+      scrollToBottom();
+    }
   });
 
   return (
     <div>
       {user ? (
-        <div className="flex-1 l sm:w-auto p:2 sm:p-6 justify-between flex flex-col h-screen float-Right">
+        <div className="flex-1 l sm:w-auto p:2 sm:p-6 justify-between  flex flex-col h-screen float-Right">
           <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
             <div className="relative flex items-center space-x-4">
               <div className="flex flex-col leading-tight">
@@ -108,8 +105,12 @@ function MsgBox({ user, users,msgUser ,callUsers}) {
               <button
                 type="button"
                 className="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-                onClick={async()=>{
-                  callUsers({token:cookie.getItem('token'),id:user._id,room})
+                onClick={async () => {
+                  callUsers({
+                    token: cookie.getItem("token"),
+                    id: user._id,
+                    room,
+                  });
                 }}
               >
                 <svg
@@ -150,16 +151,18 @@ function MsgBox({ user, users,msgUser ,callUsers}) {
           </div>
           <div
             id="messages"
-            onLoad={()=>setInterval(()=>scrollToBottom(),1000)}
             className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
           >
-            {showMsg?.map((x,i) =>
+            {showMsg?.map((x, i) =>
               x?.user === user?._id ? (
                 <div className="chat-message">
                   <div className="flex items-end">
-                    <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start" onLoad={()=>setInterval(()=>scrollToBottom(),1000)}>
+                    <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
                       <div>
-                        <span className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600" ref={i===showMsg.length-1 ? divRef : null}>
+                        <span
+                          className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600"
+                          ref={i === showMsg.length - 1 ? divRef : null}
+                        >
                           <span className="time">{x?.time}</span>
                           <br />
                           {x?.chat}
@@ -171,9 +174,12 @@ function MsgBox({ user, users,msgUser ,callUsers}) {
               ) : (
                 <div className="chat-message">
                   <div className="flex items-end justify-end">
-                    <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end" onLoad={()=>scrollToBottom()}>
+                    <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
                       <div>
-                        <span className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white " ref={i===showMsg.length-1 ? divRef : null}>
+                        <span
+                          className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white "
+                          ref={i === showMsg.length - 1 ? divRef : null}
+                        >
                           <span className="time">{x?.time}</span>
                           <br />
                           {x?.chat}
@@ -192,7 +198,29 @@ function MsgBox({ user, users,msgUser ,callUsers}) {
                 onChange={(e) => setMsg(e.target.value)}
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
-                    setMsg("")
+                    if (msg) {
+                      socket.emit("answerCall", {
+                        token: cookie.getItem("token"),
+                        otherUser: user?._id,
+                        msg: msg,
+                      });
+                      const currentDate = new Date();
+                      const currentHour = currentDate.getHours();
+                      let currentMinute = currentDate.getMinutes() + "";
+                      if (currentMinute.length < 2) {
+                        currentMinute = 0 + currentMinute;
+                      }
+                      setShowMsg([
+                        ...showMsg,
+                        {
+                          user: val.user?._id,
+                          chat: msg,
+                          time: currentHour + ":" + currentMinute,
+                        },
+                      ]);
+                      setMsg("");
+                    }
+                    setTimeout(() => scrollToBottom(), 1000);
                   }
                 }}
                 value={msg}
@@ -203,33 +231,32 @@ function MsgBox({ user, users,msgUser ,callUsers}) {
                 <button
                   type="button"
                   onClick={() => {
-                    if(msg){
-
+                    if (msg) {
                       socket.emit("answerCall", {
                         token: cookie.getItem("token"),
-                      otherUser: user?._id,
-                      msg: msg,
-                    });
-                    const currentDate = new Date();
-                    const currentHour = currentDate.getHours();
-                    let currentMinute = currentDate.getMinutes() + "";
-                    if (currentMinute.length < 2) {
-                      currentMinute = 0 + currentMinute;
+                        otherUser: user?._id,
+                        msg: msg,
+                      });
+                      const currentDate = new Date();
+                      const currentHour = currentDate.getHours();
+                      let currentMinute = currentDate.getMinutes() + "";
+                      if (currentMinute.length < 2) {
+                        currentMinute = 0 + currentMinute;
+                      }
+                      setShowMsg([
+                        ...showMsg,
+                        {
+                          user: val.user?._id,
+                          chat: msg,
+                          time: currentHour + ":" + currentMinute,
+                        },
+                      ]);
+                      setMsg("");
                     }
-                    setShowMsg([
-                      ...showMsg,
-                      {
-                        user: val.user?._id,
-                        chat: msg,
-                        time: currentHour + ":" + currentMinute,
-                      },
-                    ]);
-                    setMsg("");
-                  } 
-                    setInterval(()=>scrollToBottom(),1000)
+                    setTimeout(() => scrollToBottom(), 1000);
                   }}
                   className="inline-flex items-center justify-center h-full rounded-lg px-4 py-3 transition duration-500 ease-in-out text-grey hover:text-blue-400  bg-none focus:outline-none"
-                  >
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"

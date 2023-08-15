@@ -57,7 +57,7 @@ const NotificationPage = () => {
 
   return (
     <>
-    {videoChat ? <VideoCall data={videoChat}/> :<>
+    {videoChat ? <VideoCall data={videoChat} close={setVideoChat}/> :<>
       {/* Header */}
       <NavBar2 />
 {updations ? <Updations close={setUpdations} data={updations.posts} user={updations.user[0]}/> :
