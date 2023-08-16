@@ -18,7 +18,7 @@ import  io  from "socket.io-client";
 import VideoCall from "./Notifications/Chat/VideoCall";
 import Saved  from "./Saved/Saved"
 
-const socket = io.connect("https://localhost:5000")
+const socket = io.connect("https://server.getdone.site/")
 
 function App() {
   const [user, setUser] = useState("");
