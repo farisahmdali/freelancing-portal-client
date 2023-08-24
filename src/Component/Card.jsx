@@ -14,7 +14,6 @@ function Card({ heading,price,reFetch,description,onClick,usersId,postId}) {
       <div className='d-flex flex-column justify-content-center p-2'>
         <button className="btn-primary" onClick={()=>{
             instance.post("/approvePost",{
-                token:cookies.getItem("token"),
                 postId,
                 usersId,
                 amount:price,
@@ -23,12 +22,7 @@ function Card({ heading,price,reFetch,description,onClick,usersId,postId}) {
 
         }}>Approve</button>
         <button className=" btn btn-danger mt-1" onClick={()=>{
-          instance.delete("/deleteRequestOfAPost/"+usersId+"/"+postId,{
-            params:{
-              token:cookies.getItem("token"),
-            }
-            
-          }).then(()=>reFetch())
+          instance.delete("/deleteRequestOfAPost/"+usersId+"/"+postId).then(()=>reFetch())
         }}>Delete</button>
       </div>
 

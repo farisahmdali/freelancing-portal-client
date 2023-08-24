@@ -1,15 +1,13 @@
 import React from 'react'
 import {useNavigate } from "react-router-dom";
-import logo from "../asset/logo getdone.jpg"
 
 function NavBar() {
   const navigate=useNavigate()
   return (
      
-<nav className="bg-white dark:bg-gray-900 w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+<nav className=" bg-gray-900 w-full z-20 top-0 left-0 border-b border-gray-200 border-gray-600">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <a href="/" className="flex items-center">
-      <img src={logo} className="h-8 mr-3 bg-noForImg" alt="Flowbite Logo" />
       <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">GetDone</span>
     </a>
     <div className="flex md:order-2">

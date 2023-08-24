@@ -24,7 +24,6 @@ function ConfirmPayment({ username, amount, userId, close, postId, paid }) {
             await instance
               .get("/folder", {
                 params: {
-                  token: cookie.getItem("token"),
                   postId,
                 },
                 responseType: "blob",
@@ -110,7 +109,6 @@ function ConfirmPayment({ username, amount, userId, close, postId, paid }) {
                   setLoading(true);
                   instance
                     .post("/transferCredit", {
-                      token: cookie.getItem("token"),
                       userId: userId,
                       amount: amount,
                       postId,
@@ -136,7 +134,6 @@ function ConfirmPayment({ username, amount, userId, close, postId, paid }) {
                 await instance
               .get("/folder", {
                 params: {
-                  token: cookie.getItem("token"),
                   postId,
                 },
                 responseType: "blob",

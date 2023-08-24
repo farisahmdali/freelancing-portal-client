@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Loading from "../../Loading";
 import instance from "../../axios/axios";
-import cookies from "js-cookies"
 import { useNavigate } from "react-router-dom";
 
 const BlackWhiteThemeForm = () => {
+  const [val, setVal] = useState("");
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -14,19 +14,41 @@ const BlackWhiteThemeForm = () => {
   const [linkName, setLinkName] = useState("");
   const [file, setFile] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
-const navigate=useNavigate()
+  const navigate = useNavigate();
   const types = [
-    "Web development",
-    "Ui/Ux design",
-    "Civil Engineeer",
+    "Web Development",
+    "UI/UX Design",
+    "Civil Engineer",
     "Graphic Designer",
     "App Development",
-    "Game development",
-    "Cyber Security",
+    "Game Development",
+    "Cybersecurity",
     "DevOps",
-  ];
-
+    "Data Science",
+    "Digital Marketing",
+    "Content Writing",
+    "Mobile Development",
+    "Cloud Computing",
+    "Machine Learning",
+    "Network Engineering",
+    "Software Testing",
+    "Blockchain Development",
+    "Social Media Management",
+    "Video Editing",
+    "IT Support",
+    "Copywriting",
+    "E-commerce Development",
+    "Motion Graphics",
+    "Database Administration",
+    "SEO Specialist",
+    "AR/VR Development",
+    "Product Design",
+    "Network Security",
+    "Illustration",
+    "Photography"
+];
   const handleSubmit = (e) => {
+    if(!val){
     e.preventDefault();
     // Perform form submission logic here
     console.log("Heading:", heading);
@@ -35,26 +57,27 @@ const navigate=useNavigate()
     console.log("Links:", links);
     console.log("File:", file);
     console.log("Selected Option:", selectedOption);
-    instance.post('/createPosts',{
-        token:cookies.getItem('token'),
-        data:{
-            head:heading,
-            description,
-            links,
-            pic:file,
-            type:selectedOption,
-            price
-        }
-    }).then(res=>{
+    instance
+      .post("/createPosts", {
+        data: {
+          head: heading,
+          description,
+          links,
+          pic: file,
+          type: selectedOption,
+          price,
+        },
+      })
+      .then((res) => {
         setHeading("");
         setDescription("");
         setPrice("");
         setLinks([]);
         setFile(null);
         setSelectedOption("");
-        navigate('/myPosts',{replace:true})
-    })
-  
+        navigate("/myPosts", { replace: true });
+      });
+    }
   };
 
   const handleAddLink = () => {
@@ -66,14 +89,14 @@ const navigate=useNavigate()
   };
 
   const handleFileUpload = (e) => {
-    setLoading(true)
+    setLoading(true);
     const selectedFile = e.target.files[0];
-    let formData = new FormData()
-    formData.append('file',selectedFile)
-    instance.post('/imageUpload',formData).then(res=>{
-        setLoading(false)
-        setFile(res.data.url)
-    })
+    let formData = new FormData();
+    formData.append("file", selectedFile);
+    instance.post("/imageUpload", formData).then((res) => {
+      setLoading(false);
+      setFile(res.data.url);
+    });
   };
 
   const handleSelectChange = (e) => {
@@ -146,7 +169,14 @@ const navigate=useNavigate()
             type="number"
             id="price"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value > 0) {
+                setVal("")
+              } else {
+                setVal("Enter Value greater than 0");
+              }
+              setPrice(e.target.value);
+            }}
             required
             min={0}
             style={{
@@ -159,6 +189,7 @@ const navigate=useNavigate()
               borderRadius: "4px",
             }}
           />
+          <p className="text-red-500">{val}</p>
         </div>
 
         <div style={{ marginBottom: "16px" }}>
@@ -283,6 +314,7 @@ const navigate=useNavigate()
             type="file"
             id="file"
             onChange={handleFileUpload}
+            accept=".jpg, .jpeg, .png"
             required
             style={{
               background: "transparent",

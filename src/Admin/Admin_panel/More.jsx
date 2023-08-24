@@ -6,9 +6,11 @@ import cookies from "js-cookies";
 import Card from "../../Component/Card1";
 import EditPosts from "../../MyPosts/EditPost/EditPosts";
 import { useNavigate } from "react-router-dom";
+import ConfirmBox from "../../Component/ConfirmBox";
 
 function More(props) {
   const val = useContext(userData);
+  const [confirm,setConfirm] = useState(false);
   const [user, setUser] = useState(val.user);
   const [report,setReport]=useState([])
   const [edit, setEdit] = useState("");
@@ -52,7 +54,6 @@ function More(props) {
     setLoading(true);
     instance
       .post("/admin/updateUser", {
-        token: cookies.getItem("token"),
         userId: user._id,
         data: user,
       })
@@ -61,7 +62,8 @@ function More(props) {
       })
       .catch(() => {
         cookies.removeItem("token");
-        navigate("/", { replace: true });
+        setConfirm(true)
+
       });
   };
 
@@ -70,7 +72,6 @@ function More(props) {
     if (confirm) {
       instance
         .post("/admin/delete", {
-          token: cookies.getItem("token"),
           _id: user._id,
         })
         .then(() => {
@@ -78,7 +79,7 @@ function More(props) {
         })
         .catch(() => {
           cookies.removeItem("token");
-          navigate("/", { replace: true });
+          setConfirm(true)
         });
     }
   };
@@ -88,7 +89,6 @@ function More(props) {
     if (confirm) {
       instance
         .post("/admin/block", {
-          token: cookies.getItem("token"),
           _id: user._id,
           event: user?.blocked ? false : true,
         })
@@ -97,7 +97,8 @@ function More(props) {
         })
         .catch(() => {
           cookies.removeItem("token");
-          navigate("/", { replace: true });
+          setConfirm(true)
+
         });
     }
   };
@@ -106,7 +107,6 @@ function More(props) {
     instance
       .get("/admin/userPosts", {
         params: {
-          token: cookies.getItem("token"),
           id: user._id,
         },
       })
@@ -116,11 +116,14 @@ function More(props) {
       })
       .catch(() => {
         cookies.removeItem("token");
-        navigate("/", { replace: true });
+        setConfirm(true)
+
       });
   }, [user._id, loading, editPost]);
 
   return (
+    <>
+      {confirm ? <ConfirmBox/>:null}
     <div className="container-fluid m-5 height-100vh-min">
       {loading ? <Loading /> : null}
       {editPost ? (
@@ -137,7 +140,6 @@ function More(props) {
             setLoading(true);
             instance
               .patch("/admin/editPost/" + editPost._id, {
-                token: cookies.getItem("token"),
                 data,
                 userId: user._id,
               })
@@ -147,16 +149,17 @@ function More(props) {
               })
               .catch(() => {
                 cookies.removeItem("token");
-                navigate("/", { replace: true });
+                setConfirm(true)
+
               });
           }}
         />
       ) : (
-        <div className="row pt-5">
-          <div className="flex flex-wrap justify-between">
-            <div className="flex w-1/2 border">
+        <div className=" pt-5">
+          <div className="flex flex-wrap sm:flex-col xs:flex-col justify-between">
+            <div className="flex border">
               <label htmlFor="file" className="flex justify-center w-1/3">
-                <img src={user.pic} alt="" height={200} className="imgAdmin" />
+                <img src={user.pic} alt=""  className="imgAdmin" />
                 <input
                   type="file"
                   style={{ display: "none" }}
@@ -297,11 +300,11 @@ function More(props) {
                 </div>
               </div>
             </div>
-            <div className="border border-solid w-5/12 overflow-y-auto">
+            <div className="border border-solid h-[30vh] overflow-y-auto sm:mt-3 xs:mt-3">
               <h4 className="underline">Reports</h4>
               <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
                 {report?.map(x=>(
-                  <li className="ms-3">{x}</li>
+                  <li className="ms-3">{x?.msg+`(${x?.time}/user:-${x?.user})`}</li>
                 ))}
               </ul>
             </div>
@@ -322,11 +325,7 @@ function More(props) {
                     if (confirm) {
                       setLoading(true);
                       instance
-                        .delete("/admin/deletePost/" + user._id + "/" + x._id, {
-                          params: {
-                            token: cookies.getItem("token"),
-                          },
-                        })
+                        .delete("/admin/deletePost/" + user._id + "/" + x._id)
                         .then(() => setLoading(false))
                         .catch((err) => {
                           console.log(err);
@@ -342,6 +341,7 @@ function More(props) {
         </div>
       )}
     </div>
+    </>
   );
 }
 

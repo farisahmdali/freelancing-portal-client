@@ -15,6 +15,7 @@ const EditPosts = ({
   CustomHandle,
 }) => {
   const [heading, setHeading] = useState(head);
+  const [val,setVal] = useState("");
   const [description, setDescription] = useState(descrip);
   const [price, setPrice] = useState(amount);
   const [links, setLinks] = useState(Urls);
@@ -23,6 +24,7 @@ const EditPosts = ({
   const [linkName, setLinkName] = useState("");
   const [file, setFile] = useState(pic);
   const [selectedOption, setSelectedOption] = useState(select);
+  console.log(selectedOption)
   const types = [
     "Web Development",
     "UI/UX Design",
@@ -57,8 +59,10 @@ const EditPosts = ({
 ];
 
   const handleSubmit = (e) => {
-    let data= {
-      head: heading,
+    if(!val){
+
+      let data= {
+        head: heading,
       description,
       links,
       pic: file,
@@ -74,7 +78,6 @@ const EditPosts = ({
 
       instance
         .patch("/updatePost/"+_id, {
-          token: cookies.getItem("token"),
           data,
         })
         .then((res) => {
@@ -85,8 +88,9 @@ const EditPosts = ({
           setFile(null);
           setSelectedOption("");
         });
+      }
+      close();
     }
-    close();
 
   };
 
@@ -184,7 +188,14 @@ const EditPosts = ({
             type="number"
             id="price"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) =>{
+              if (e.target.value > 0) {
+                setVal("")
+              } else {
+                setVal("Enter Value greater than 0");
+              }
+              setPrice(e.target.value);
+              }}
             required
             min={0}
             style={{
@@ -197,6 +208,8 @@ const EditPosts = ({
               borderRadius: "4px",
             }}
           />
+          <p className="text-red-500">{val}</p>
+
         </div>
 
         <div style={{ marginBottom: "16px" }}>
@@ -320,6 +333,7 @@ const EditPosts = ({
           <input
             type="file"
             id="file"
+            accept=".jpg, .jpeg, .png"
             onChange={handleFileUpload}
             style={{
               background: "transparent",

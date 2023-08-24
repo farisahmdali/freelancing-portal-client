@@ -14,7 +14,6 @@ function Updations({ close, data, user }) {
     e.preventDefault();
     instance
       .post("/postUpdationOfWork", {
-        token: cookies.getItem("token"),
         postId: data._id,
         data: {
           completed: slider,
@@ -74,7 +73,7 @@ function Updations({ close, data, user }) {
 
                 <div className="flex">
                   <span className="title-font font-medium text-2xl text-gray-900">
-                    ${data?.price}
+                  ₹{data?.price}
                   </span>
                 </div>
               </div>

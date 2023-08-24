@@ -15,7 +15,6 @@ function DashBoard() {
     instance
       .get("/getSavedPosts", {
         params: {
-          token: cookies.getItem("token"),
           saved: JSON.parse(localStorage.getItem("saved")),
         
         },
@@ -129,7 +128,7 @@ function DashBoard() {
           <div className="card-grid">
             {search?.map((x) => (
               <div className="flex flex-col">
-                <CardDashboard gig={x.posts} view={true} />
+                <CardDashboard gig={x} view={true} />
                 <button
                   type="button"
                   class="focus:outline-none mt-4 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"

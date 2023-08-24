@@ -38,11 +38,7 @@ const NotificationPage = () => {
   
   useEffect(() => {
     instance
-      .get("/notifications", {
-        params: {
-          token: cookies.getItem("token"),
-        },
-      })
+      .get("/notifications")
       .then((res) => {
         console.log(res.data);
         setWorkFlow(res.data.data.workFlow);

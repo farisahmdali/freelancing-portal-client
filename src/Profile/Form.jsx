@@ -68,7 +68,7 @@ const DeveloperForm = ({ user, close }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    instance.patch("/updateUser/"+cookies.getItem("token"), {
+    instance.patch("/updateUser/", {
       data:{
         pic:img,
         name,
@@ -77,9 +77,7 @@ const DeveloperForm = ({ user, close }) => {
       }
      
     }).then(()=>{
-        instance.post('/login',{
-            token:cookies.getItem('token')
-        }).then(res=>val.setUser(res.data.userDetail))
+        instance.post('/login').then(res=>val.setUser(res.data.userDetail))
     })
     close(false);
   };
@@ -113,6 +111,7 @@ const DeveloperForm = ({ user, close }) => {
             />
             <input
               type="file"
+              accept=".jpg, .jpeg, .png"
               name=""
               id="dp"
               className="hidden"

@@ -5,10 +5,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { userData } from "../../configs/userData";
 import Card from "../../Component/Card";
 import ConfirmPayment from "../../Component/ConfirmPayment";
+import NavBar2 from "../../Component/NavBar2";
+import Loading from "../../Loading";
 
 function ViewPost() {
   const { postId, userId } = useParams();
   const [data, setData] = useState();
+  const [loading,setLoading] = useState(true)
   const [confirm, setConfirm] = useState(false);
   const [bargin, setBargin] = useState();
   const [barginDes, setBarginDes] = useState();
@@ -22,7 +25,6 @@ function ViewPost() {
     instance
       .get("/PostDataBrowse", {
         params: {
-          token: cookies.getItem("token"),
           id: postId,
           userId,
         },
@@ -30,7 +32,6 @@ function ViewPost() {
       .then((res) => {
         setData(res.data.post);
         setBargin(res.data.post.price);
-        console.log(res.data.post);
         try{
           if(res.data.post?.approvedTo[0]){
             setState(true)
@@ -41,6 +42,7 @@ function ViewPost() {
           setState(false)
           console.log(err);
         }
+        setLoading(false)
       })
       .catch((err) => {
          console.log(err);
@@ -52,6 +54,8 @@ function ViewPost() {
   }, [postId, userId]);
   return (
     <div className="text-black view height-100vh-min">
+      {loading ? <Loading/>:null}
+      <NavBar2/>
       {confirmPayment ? <ConfirmPayment paid={data?.paid || false} username={data?.approvedTo[0]?.username} postId={postId} amount={data?.price} userId={data?.approvedTo[0]?._id} close={setConfirmPayment}/> :null}
       {confirm ? (
         <div className="confirmation-box z-3">
@@ -99,7 +103,6 @@ function ViewPost() {
             onClick={() => {
               instance
                 .post("/requestToAPost", {
-                  token: cookies.getItem("token"),
                   userId,
                   postId,
                   bargin,
@@ -141,7 +144,7 @@ function ViewPost() {
 
               <div className="flex">
                 <span className="title-font font-medium text-2xl text-gray-900">
-                  ${data?.price}
+                ₹{data?.price}
                 </span>
               {userId !== val.user._id ?   <>
                 <button
@@ -194,10 +197,10 @@ function ViewPost() {
         </div>
       </section>
       {userId !== val.user._id ? (
-        <h2 className="text-decoration-underline">User</h2>
+        <h2 className="underline ms-4">User</h2>
       ) : null}
       {userId !== val.user._id ? (
-        <div className="border-box" onClick={() => navigate("/user/" + userId)}>
+        <div className="border-box m-5 cursor-point bg-white p-4" onClick={() => navigate("/user/" + userId)}>
           <img
             src={data?.user.pic}
             height={150}

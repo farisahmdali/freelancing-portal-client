@@ -156,11 +156,11 @@ const LoginForm = () => {
                         navigate("/dashBoard", { replace: true });
                       })
                       .catch((err) => {
-                        window.alert("Please sign up");
+                        setCustomeAlert("Please sign up");
                       });
                   }}
                   onError={() => {
-                    window.alert("something went wrong");
+                    setCustomeAlert("something went wrong");
                   }}
                 />
               </GoogleOAuthProvider>
@@ -249,7 +249,7 @@ const SignUpForm = () => {
                   });
               }}
               onError={() => {
-                window.alert("something went wrong");
+                setCustomeAlert("something went wrong");
               }}
             />
           </GoogleOAuthProvider>
@@ -282,9 +282,7 @@ const AuthPage = () => {
 
   useEffect(() => {
     instance
-      .post("/login", {
-        token: cookies.getItem("token"),
-      })
+      .post("/login")
       .then((res) => {
         val.setUser(res.data.userDetail);
         navigate("/dashBoard", { replace: true });

@@ -16,7 +16,7 @@ function CardDashboard({ gig, view }) {
   if (end === true) shortdes = shortdes + "...";
   return (
     <div
-      className="max-w-sm rounded overflow-hidden shadow-lg"
+      className="max-w-sm rounded lg:min-h-[420px] md:min-h-[480px] sm:min-h-[450px] shadow-lg"
       onClick={() => {
         if (view) {
           navigate(`/post/${gig.userId}/${gig._id}`);
@@ -30,9 +30,9 @@ function CardDashboard({ gig, view }) {
         <div className="font-bold text-xl mb-2">{gig?.head}</div>
         <p className="text-gray-700 text-base">{shortdes}</p>
       </div>
-      <div className="px-6 pt-4 pb-2">
+      <div className="">
         <span className="inline-block  px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          ${gig?.price}
+        ₹{gig?.price}
         </span>
       </div>
     </div>

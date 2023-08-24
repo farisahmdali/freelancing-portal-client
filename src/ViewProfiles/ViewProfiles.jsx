@@ -6,27 +6,32 @@ import CardDashboard from "../Component/CardDashboard";
 import Report from "../Component/Report";
 import { Rate } from "antd";
 import Rating from "../Component/Rating";
+import NavBar2 from "../Component/NavBar2";
+import Loading from "../Loading";
 
 function ViewProfiles() {
   const [user, setUser] = useState();
   const { userId } = useParams();
   const [report, setReport] = useState(false);
   const [rate, setRate] = useState(false);
+  const [loading,setLoading] = useState(true);
   useEffect(() => {
     instance
       .get("/userDetails", {
         params: {
-          token: cookies.getItem("token"),
           userId,
         },
       })
       .then((res) => {
         setUser(res.data.user);
         console.log(res.data.user);
+        setLoading(false)
       });
   }, []);
   return (
     <>
+    {loading ? <Loading/>:null}
+        <NavBar2/>
       <div className="p-16">
         {report ? <Report userId={userId} close={setReport} /> : null}
         {rate ? <Rating userId={userId} close={setRate} /> : null}
@@ -103,11 +108,11 @@ function ViewProfiles() {
           </div>{" "}
         </div>
       </div>
-      <div className="pt-5">
+      <div className="p-5">
         <h4 className="text-decoration-underline">Posts</h4>
         <div className="card-grid">
           {user?.posts[0]?.posts?.map((x) => (
-            <CardDashboard gig={{ ...x, userId: user?._id }} />
+            <CardDashboard gig={{ ...x, userId: user?._id }} view={true}/>
           ))}
         </div>
       </div>

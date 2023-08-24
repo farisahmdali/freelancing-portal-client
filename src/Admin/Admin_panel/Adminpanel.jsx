@@ -5,32 +5,33 @@ import { userData } from "../../configs/userData";
 import { useNavigate } from "react-router-dom";
 import instance from "../../axios/axios";
 import Chart from "./Chart";
+import ConfirmBox from "../../Component/ConfirmBox";
 
 function Admin_panel() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState([]);
+  const [confirm,setConfirm] = useState(false);
   const [payment, setPayment] = useState(true);
   const [chart, setChart] = useState(false);
   const [paymentPending, setPendingPayment] = useState([]);
   const val = useContext(userData);
   useEffect(() => {
     instance
-      .get("/admin/user", {
-        params: {
-          token: cookies.getItem("token"),
-        },
-      })
+      .get("/admin/user")
       .then((res) => {
         setUsers(res?.data.result);
         setSearch(res?.data?.result);
         setPendingPayment(res?.data?.payment || []);
         console.log(res.data);
-      });
+      }).catch(()=>{
+        setConfirm(true);
+      })
   }, []);
 
   return (
     <div className="admin_panel t container">
+      {confirm ? <ConfirmBox/>:null}
       <div className="row">
         <div>
           <button
@@ -112,7 +113,7 @@ function Admin_panel() {
                       {x.email}
                     </td>
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {x?.amount || "nill"}
+                      {+x?.amount/100 || "nill"}
                     </td>
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       {x?.upiId || "nill"}
@@ -125,7 +126,6 @@ function Admin_panel() {
                           if (confirm) {
                             instance
                               .post("/admin/paid", {
-                                token: cookies.getItem("token"),
                                 withdrawId: x?._id,
                               })
                               .then(() => {

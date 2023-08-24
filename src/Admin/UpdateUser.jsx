@@ -95,7 +95,6 @@ function UpdateUser({user,close}) {
       onClick={async () => {
         await instance
           .post("/updateUser", {
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZhcmlzYWhtZGFsaUBnbWFpbC5jb20iLCJpYXQiOjE2ODkyMjk1ODAsImV4cCI6MTY4OTI0NzU4MH0.CUtaYmqlOw40ir9zMkHthXOotGWn-i4OJnoTSZ5Zgu4',
             data,
           })
           close()

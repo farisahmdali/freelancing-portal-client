@@ -17,8 +17,10 @@ import ViewProfiles from "./ViewProfiles/ViewProfiles";
 import  io  from "socket.io-client";
 import VideoCall from "./Notifications/Chat/VideoCall";
 import Saved  from "./Saved/Saved"
+import Error from "./Error";
+import ConfirmBox from "./Component/ConfirmBox";
 
-const socket = io.connect("https://server.getdone.site/")
+const socket = io.connect("http://localhost:5000")
 
 function App() {
   const [user, setUser] = useState("");
@@ -41,6 +43,7 @@ function App() {
           <Route path="/post/:userId/:postId" element={<View />} />
           <Route path="/user/:userId" element={<ViewProfiles/>} />
           <Route path="/vide" element={<VideoCall/>} />
+          <Route path="*" element={<Error/>} />
         </Routes>
       </userData.Provider>
     </div>
