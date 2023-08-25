@@ -20,7 +20,7 @@ import Saved  from "./Saved/Saved"
 import Error from "./Error";
 import ConfirmBox from "./Component/ConfirmBox";
 
-const socket = io.connect("http://localhost:5000")
+const socket = io.connect("https://server.getdone.site")
 
 function App() {
   const [user, setUser] = useState("");

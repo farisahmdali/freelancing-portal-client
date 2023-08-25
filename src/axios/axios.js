@@ -2,7 +2,7 @@ import axios from 'axios'
 import cookie from "js-cookies"
 
 const instance = axios.create({
-    baseURL:'http://localhost:5000',
+    baseURL:'https://server.getdone.site',
   });
 
   instance.interceptors.request.use(
